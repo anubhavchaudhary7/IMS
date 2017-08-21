@@ -1,18 +1,28 @@
 <?php
 session_start();
+/*if (!isset($_SESSION['aid']) && !isset($_SESSION['login_token']))
+{
+   alert("Please Login To see the content !");
+   session_destroy();
+   header("Location: AdminLogin.php");
+   exit();
+}*/
+
+include "../ConfigFiles/config.php";
+include "../ConfigFiles/database.php";
+
 function generateRandomNumber()
 { 
   $store=rand(10,100000);
   return $store;
 }
-include "database.php";
-include "config.php";
+
 $formid=$_POST['formid'];
 if($formid==1)
 {
   $token=$_POST['csrf-token'];
   $session_token=$_SESSION['token'];
-  if(isset($token) && $_POST['csrf-token'])
+  if(isset($token) && isset($_POST['csrf-token']))
   {
     if($token==$session_token)
     {

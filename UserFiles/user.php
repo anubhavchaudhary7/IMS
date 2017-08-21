@@ -8,7 +8,6 @@ if (!isset($_SESSION['uid']) && !isset($_SESSION['token']))
    exit();
 }
 $id=$_SESSION['uid'];
-echo "The id is:".$id;
 ?>
 <!DOCTYPE html>
 <html>
