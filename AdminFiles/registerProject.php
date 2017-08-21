@@ -8,6 +8,7 @@ if (!isset($_SESSION['aid']) && !isset($_SESSION['login-token']))
    exit();
 }
 $id=$_GET['q'];
+
 include "../ConfigFiles/database.php";
 include "../ConfigFiles/config.php";
 
@@ -49,8 +50,10 @@ include "../ConfigFiles/config.php";
     <div class="form-container">
 
       <form class="form" action="submitproject.php" method="post" onsubmit="return Check();">
+
         <input type="hidden" name="uid" value=" <?php echo $uid=$_GET['q']; ?>" />
         <input type="hidden" name="adminid" value=" <?php echo $id; ?>" />
+        
         <div class="mainDetails" style="height:640px;">
 
            <div class="form-group">

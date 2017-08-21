@@ -140,6 +140,7 @@ if(!isset($_SESSION['aid']) && !isset($_SESSION['login_token']))
             </div>
 
             <div class="tab-content">
+
             <div class="inner-table tab-pane fade in active" style="margin:30px;" id="activeintern">
                 <table class="table table-striped table-hover table-condensed table-bordered">
 				   <thead>
@@ -202,7 +203,7 @@ if(!isset($_SESSION['aid']) && !isset($_SESSION['login_token']))
 						<?php echo $status[$row['status']]; ?>
 						</td>
 						<td>
-                         <a href="profile.php?q=<?php echo $row[uid];?>" data-href="<?php echo $row[uid]; ?>" class="profile">
+                         <a href="profile.php?q=<?php echo $row['uid']; ?>" data-href="<?php echo $row[uid]; ?>" class="profile">
                            View Details
                          </a>		
 						</td>
@@ -222,7 +223,7 @@ if(!isset($_SESSION['aid']) && !isset($_SESSION['login_token']))
 								<li class="divider">
 								</li>
 								<li>
-								   <a href="#" class="registerTask" data-href="<?php echo $row[uid]; ?>">
+								   <a href="registerTask.php?q=<?php echo $row['uid']; ?>" class="registerTask" data-href="<?php echo $row[uid]; ?>">
 								       Register Task
 								    </a>
 								</li>
@@ -247,9 +248,6 @@ if(!isset($_SESSION['aid']) && !isset($_SESSION['login_token']))
 								<td><?php echo "NULL"; ?></td>
 								<td><?php echo "NULL"; ?></td>
 								<td><?php echo "NULL"; ?></td>
-								<td><?php echo "NULL"; ?></td>
-								<td><?php echo "NULL"; ?></td>
-								<td><?php echo "NULL"; ?></td>
 							   </tr>
 						     </tbody>
 						     <?php
@@ -257,6 +255,7 @@ if(!isset($_SESSION['aid']) && !isset($_SESSION['login_token']))
                   ?>
 			</table>
 		  </div>
+
 		  <div class="tab-pane fade in" id="archive" style="margin:30px;">
 		    <table class="table table-striped table-hover table-condensed table-bordered">
 				   <thead>
@@ -314,7 +313,7 @@ if(!isset($_SESSION['aid']) && !isset($_SESSION['login_token']))
 						<?php echo $status[$row['status']]; ?>
 						</td>
 						<td>
-						 <a data-href="<?php echo $row[uid]; ?>" class="profile">
+						 <a href="profile.php?q=<?php echo $row['uid'];?>" data-href="<?php echo $row[uid]; ?>" class="profile">
 						   View Details
 						 </a>
 						</td>
@@ -357,14 +356,14 @@ if(!isset($_SESSION['aid']) && !isset($_SESSION['login_token']))
 	  $('.registerProject').click(function(){
 	  	 var id=$(this).attr('data-href');
 	  	 console.log("The value of the data-href is :"+id);
-	      console.log(<?php echo ADMIN_WEB_URL;?>+"registerProject.php?q="+id);
+	      console.log(<?php// echo ADMIN_WEB_URL;?>+"registerProject.php?q="+id);
 	     return false;
 	  });
 
 	  $('.registerTask').click(function(){
 	  	 var id=$(this).attr('data-href');
 	  	 console.log("The value of the data-href is :"+id);
-	      console.log(<?php echo ADMIN_WEB_URL;?>+"registerTask.php?q="+id);
+	      console.log(<?php //echo ADMIN_WEB_URL;?>+"registerTask.php?q="+id);
 	     return false;
 	  });
 	 });*/
@@ -386,7 +385,7 @@ if(!isset($_SESSION['aid']) && !isset($_SESSION['login_token']))
 	            xmlhttp = new XMLHttpRequest();
 	        } else {
 	            // code for IE6, IE5
-	            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	            xmlhttp = new ActiveXObject("Micros	oft.XMLHTTP");
 	        }
 
 	        xmlhttp.onreadystatechange = function() {

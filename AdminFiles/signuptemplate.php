@@ -1,24 +1,32 @@
 <?php
-include "database.php";
-include "config.php";
 session_start();
+if (!isset($_SESSION['aid']) && !isset($_SESSION['login_token']))
+{
+   header("Location: AdminLogin.php");
+   alert("Please Login To see the content !");
+   session_destroy();
+   exit();
+}
 
-$uname=$_POST['name'];
-$uemail=$_POST['secondemail'];
-$id=$_POST['myid'];
-$edu=$_POST['education'];
-$pro=$_POST['project'];
-$add=$_POST['address'];
-$phone=$_POST['phone'];
-$pass=$_POST['pass'];
-$ethernet=$_POST['ethernetadd'];
-$wifi=$_POST['wifiadd'];
-$image=$_POST['imageUpload'];
-$resume=$_POST['resumeUpload'];
-$mobile=$_POST['macadd'];
-$sip = $_SERVER['REMOTE_ADDR'];
-$code=$_GET['q'];
-$token=$_GET['token'];
+include "../ConfigFiles/config.php";
+include "../ConfigFiles/database.php";
+
+$uname=mysqli_real_escape_string($connect,$_POST['name']);
+$uemail=mysqli_real_escape_string($connect,$_POST['secondemail']);
+$id=mysqli_real_escape_string($connect,$_POST['myid']);
+$edu=mysqli_real_escape_string($connect,$_POST['education']);
+$pro=mysqli_real_escape_string($connect,$_POST['project']);
+$add=mysqli_real_escape_string($connect,$_POST['address']);
+$phone=mysqli_real_escape_string($connect,$_POST['phone']);
+$pass=mysqli_real_escape_string($connect,$_POST['pass']);
+$ethernet=mysqli_real_escape_string($connect,$_POST['ethernetadd']);
+$wifi=mysqli_real_escape_string($connect,$_POST['wifiadd']);
+$image=mysqli_real_escape_string($connect,$_POST['imageUpload']);
+$resume=mysqli_real_escape_string($connect,$_POST['resumeUpload']);
+$mobile=mysqli_real_escape_string($connect,$_POST['macadd']);
+$sip = mysqli_real_escape_string($connect,$_SERVER['REMOTE_ADDR']);
+$code=mysqli_real_escape_string($connect,$_GET['q']);
+$token=mysqli_real_escape_string($connect,$_GET['token']);
 
 if($uname=="" && $uemail=="" && $edu=="" && $pro=="" && $add=="" && $pass=="" && $ethernet=="" && $wifi=="" && $mobile=="")
 {

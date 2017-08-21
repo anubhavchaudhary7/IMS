@@ -2,16 +2,16 @@
 session_start();
 if (!isset($_SESSION['aid']) && !isset($_SESSION['login_token']))
 {
-   header("Location: AdminLogin.php");
    alert("Please Login To see the content !");
    session_destroy();
+   header("Location: AdminLogin.php");
    exit();
 }
 
 include "../ConfigFiles/config.php";
 include "../ConfigFiles/database.php";
 
-$id=$_GET['q'];
+$id=htmlspecialchars($_GET['q']);
 
 $input=['Web Design','Graphics Design','Teaching','Others'];
 
@@ -24,7 +24,7 @@ $projectStatus=['Pending','All most Completed','Completed'];
 <head>
    <title>DashBoard</title>
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../Custom_Bootstrap/Css/dashboard.css"> 
+   <link rel="stylesheet" href="../Custom_Bootstrap/Css/dashboard.css"> 
  <!-- jQuery library -->
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -81,7 +81,7 @@ $projects=mysqli_query($connect,"SELECT * FROM Project INNER JOIN user_details O
              <?php echo $row['uid']; ?>
           </div>
           <div class="col-md-3">
-           <img src="Images/intern.png" class="img-responsive img-circle" alt="Image not found!">
+           <img src="../Images/intern.png" class="img-responsive img-circle" alt="Image not found!">
           </div>
         </div>
 
@@ -243,10 +243,12 @@ $projects=mysqli_query($connect,"SELECT * FROM Project INNER JOIN user_details O
            <div class="panel panel-info">
 
             <div class="panel-heading"> 
-               <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $row1[pid] ; ?>" class="btn btn-primary btn-block">Project Details</a>
+               <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $row1['pid'];?>" class="btn btn-primary btn-block">
+                 Project Details
+              </a>
             </div>
       
-            <div class="panel-collapse collapse" id="collapse<?php echo $row1[pid]; ?>">
+            <div class="panel-collapse collapse" id="collapse<?php echo $row1['pid']; ?>">
              
             <div class="panel-body">
           
@@ -331,10 +333,10 @@ $projects=mysqli_query($connect,"SELECT * FROM Project INNER JOIN user_details O
             <div class="panel panel-info">
 
           <div class="panel-heading">
-                 <a data-toggle="collapse" data-parent="#accordion" href="#col<?php echo $check2[tid]; ?>" class="btn btn-primary btn-block">Sub Task Details</a>
+                 <a data-toggle="collapse" data-parent="#accordion" href="#col<?php echo $check2['tid']; ?>" class="btn btn-primary btn-block">Sub Task Details</a>
           </div>
           
-          <div class="panel-collapse collapse" id="col<?php echo $check2[tid]; ?>">
+          <div class="panel-collapse collapse" id="col<?php echo $check2['tid']; ?>">
             <div class="panel-body">
            
            <div class="col-md-12" style="font-size:20px;">
@@ -402,7 +404,7 @@ $projects=mysqli_query($connect,"SELECT * FROM Project INNER JOIN user_details O
               <div class="text text-danger">
                 No Task Assigned Yet.! Under Maintainence.!
 
-                <a type="button" class="btn btn-success" href="registerTask.php?q=$q&p=$p" style="margin:20px"">Click here to assign task</a>
+                <a type="button" class="btn btn-success" href="registerTask.php?q=<?php echo $id;?>&p=<?php echo $pid; ?>" style="margin:20px"">Click here to assign task</a>
               </div>
             </div>
           <?php
@@ -424,7 +426,7 @@ $projects=mysqli_query($connect,"SELECT * FROM Project INNER JOIN user_details O
              <div class="text text-center" style="font-size:40px">Project Details</div>
                 <div class="text text-danger">
                    No Project Assigned Yet.! Under Maintainence.!
-                     <a type="button" class="btn btn-success" href="registerProject.php?q=$q">Click here to assign Project</a>
+                     <a type="button" class="btn btn-success" href="registerProject.php?q=<?php echo $id; ?>">Click here to assign Project</a>
                  </div>
         </div>
      <?php
@@ -444,7 +446,7 @@ $projects=mysqli_query($connect,"SELECT * FROM Project INNER JOIN user_details O
            {
             ?>
             <div class="col-md-3 " style="padding-left: 290px; width:505px;padding-right:0px;"  >
-              <a data-href="<?php echo $id;?>" class="deactivate" type="button" class="btn btn-danger btn-lg">
+              <a href="#" data-href="<?php echo $id;?>" class="deactivate" type="button" class="btn btn-danger btn-lg">
                 Deactivate User <i class="fa fa-ban" aria-hidden="true"></i>
              </a>
            </div>
@@ -453,7 +455,7 @@ $projects=mysqli_query($connect,"SELECT * FROM Project INNER JOIN user_details O
         else{
           ?>
             <div class="col-md-3 " style="padding-left: 290px; width:505px;padding-right:0px;"  >
-              <a data-href="<?php echo $id;?>" class="active" type="button" class="btn btn-danger btn-lg">
+              <a  href="#" data-href="<?php echo $id;?>" class="active" type="button" class="btn btn-success btn-lg">
                 Active User <i class="fa fa-ban" aria-hidden="true"></i>
              </a>
            </div>
@@ -484,30 +486,34 @@ $projects=mysqli_query($connect,"SELECT * FROM Project INNER JOIN user_details O
 $(document).ready(function(){
 
 $(".active").click(function(){
-  $id=$('a').attr('data-href');
-  var answer=confirm('Do you want to deactivate?');
+  $new_id=$(this).attr('data-href');
+  var answer=confirm('Do you want to Activate this user?');
     if(answer){
      <?php
-      mysqli_query($connect,"UPDATE user_details SET status='0' WHERE uid=$id")
+      mysqli_query($connect,"UPDATE user_details SET status='1' WHERE uid=$new_id")
      ?>
-     alert('Deactivated Successfully');
+     alert('Activated Successfully');
     }
     else{
-     e.preventDefault();      
+      alert("Unable to Activate the user Please try After sometime");
     } 
-})
+  return false;
+});
 
-
-$('#delete').on('click',function(e){
-    var answer=confirm('Do you want to deactivate?');
+$(".deactivate").click(function(){
+  $new_id=$(this).attr('data-href');
+  var answer=confirm('Do you want to De-activate this user?');
     if(answer){
-     alert('Deactivated Successfully');
+     <?php
+      mysqli_query($connect,"UPDATE user_details SET status='0' WHERE uid=$new_id")
+     ?>
+     alert('De-activated Successfully');
     }
     else{
-     e.preventDefault();      
-    }
+      alert("Unable to De-activate the user Please try After sometime");
+    } 
+  return false;
 });
-  
 });
 </script>
 
