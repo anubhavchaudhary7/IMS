@@ -14,7 +14,6 @@ include "../ConfigFiles/database.php";
 $id=htmlspecialchars($_GET['q']);
 
 $input=['Web Design','Graphics Design','Teaching','Others'];
-
 $status=['User Deactivated','Active'];
 $projectStatus=['Pending','All most Completed','Completed'];
 
@@ -32,18 +31,56 @@ $projectStatus=['Pending','All most Completed','Completed'];
  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
  <script src="https://use.fontawesome.com/ca6cf33c22.js"></script>
  
- <script src="bootstrap/js/main.js?q=12e7t187"></script>
- <style>
+<!-- <script src="bootstrap/js/main.js?q=12e7t187"></script>
+ --> <style>
  #close{
     float:right;
     display:inline-block;
     padding:2px 5px;
     background:#ccc;
  }
+
+ .inputCss{
+  outline:0;
+  border:0;
+  border-bottom: 2px solid blue;
+ }
  </style>
 
 </head>
-<body>   
+<body>
+  <?php 
+    
+    $details="SELECT * FROM projects WHERE pid=''"
+
+  ?>
+<div class="modal fade" id="EditProjectDetails" role="dialog" aria-labelledby="EditProjectDetails" aria-hidden="true">
+  <form classs="form form-control" action="UpdateProjectDetails.php" method="PUT" name="UpdateProjectDetails">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color:rgba(32,178,170,0.4)">           
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+             ×
+            </button>
+            <h4 class="modal-title" id="myModalLabel">
+               <div class="text text-center" style="font-size:20px;">Edit Project Details</div>
+            </h4>
+        </div>
+        <div class="modal-body" style="background-color:rgba(128,128,128,0.2);">
+        </div>
+      </div>
+    </div>
+         
+    <div class="modal-footer">     
+      <button type="button" class="btn btn-default" data-dismiss="modal">
+        Close
+      </button> 
+      <button type="submit" class="btn btn-primary">
+         Add
+      </button>
+    </div>
+  </form>
+</div>  
 <?php
 
 // include "navbar.php";
@@ -250,74 +287,117 @@ $projects=mysqli_query($connect,"SELECT * FROM Project INNER JOIN user_details O
       
             <div class="panel-collapse collapse" id="collapse<?php echo $row1['pid']; ?>">
              
-            <div class="panel-body">
+            <div class="panel-body" class="ProjectBody">
           
-             
-            <div class="col-md-12" style="font-size:20px;">
-                <div class="col-md-6">
-                   <label for="name">Project Title:</label>
-                </div>
-                <div class="col-md-3" id="status">
-                   <?php echo $row1['p_title']; ?>
-                </div>
-            </div> 
-            
-            <div class="col-md-12" style="font-size:20px;">
-                <div class="col-md-6">
-                   <label for="name">Project Description:</label>
-                </div>
-                <div class="col-md-6">
-                   <?php echo $row1['p_description']; ?>
-                </div>
-            </div> 
-
-            <div class="col-md-12" style="font-size:20px;">
-                <div class="col-md-6">
-                   <label for="name">Status:</label>
-                </div>
-                <div class="col-md-3">
-                   <?php echo $projectStatus[$row1['p_status']]; ?>
-                </div>
+            <div class="col-md-12" style="font-size:20px;margin:5px;">
+                <div class="col-md-offset-11">
+                 <?php 
+                    if($row1['p_status']==0)
+                    {
+                      ?>
+                      <span class="badge badge-danger">Pending</span>
+                      <?php
+                    }
+                   else if($row1['p_status']==1)
+                   {
+                    ?>
+                      <span class="badge badge-warning">All most completed</span>
+                    <?php
+                   }
+                   else if($row1['p_status']==2)
+                   {
+                    ?>
+                      <span class="badge badge-warning">
+                        Completed <i class="fa fa-check" aria-hidden="true" style="color:white"></i>
+                      </span>
+                    <?php
+                   }
+                 ?>
+                 </div>
             </div>
 
              
-
-            <div class="col-md-12" style="font-size:20px;">
-                <div class="col-md-6">
+            <div class="col-md-12" style="font-size:20px;margin:5px;">
+                <div class="col-md-4">
+                   <label for="name">Project Title:</label>
+                </div>
+                <div class="col-md-7">
+                   <input id="ProjectTitle" readonly="true" value="<?php echo $row1['p_title']; ?>" style="border-style:none" />
+                </div>
+                <div class="col-md-1">
+                  <a href="#" class="EditProjectTitle" data-href="<?php echo $row1['pid']; ?>" style="font-size:15px">
+                    Edit <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                  </a>
+                </div>
+           </div> 
+            
+            <div class="col-md-12" style="font-size:20px;margin:5px;">
+                <div class="col-md-4">
+                   <label for="name">Project Description:</label>
+                </div>
+                <div class="col-md-7">
+                   <?php echo $row1['p_description']; ?>
+                </div>
+                 <div class="col-md-1" >
+                  <a href="#" class="editDiv" data-href="<?php echo 'p_description',$row1['pid'] ;?>" style="font-size:15px">
+                    Edit <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                  </a>
+                </div>
+            </div>
+             
+            <div class="col-md-12" style="font-size:20px;margin:5px">
+                <div class="col-md-4">
                    <label for="name">Assigned date:</label>
                 </div>
-                <div class="col-md-3" >
+                <div class="col-md-7" >
                    <?php echo $row1['p_start']; ?>
                 </div>
+                 <div class="col-md-1">
+                  <a href="#"  class="editDiv" data-href="<?php echo 'p_start',$row1['pid'] ;?>" style="font-size:15px">
+                    Edit <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                  </a>
+                </div>
             </div> 
 
-            <div class="col-md-12" style="font-size:20px;">
-                <div class="col-md-6">
+            <div class="col-md-12" style="font-size:20px;margin:5px">
+                <div class="col-md-4">
                    <label for="name">Deadline:</label>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-7">
                    <?php echo $row1['p_deadline']; ?>
+                </div>
+                 <div class="col-md-1" >
+                  <a href="#"  class="editDiv" data-href="<?php echo 'p_deadline',$row1['pid'] ;?>" style="font-size:15px">
+                    Edit <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                  </a>
                 </div>
             </div> 
 
-            <div class="col-md-12" style="font-size:20px;">
-                <div class="col-md-6">
+            <div class="col-md-12" style="font-size:20px;margin:5px">
+                <div class="col-md-4">
                    <label for="name">Remarks:</label>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-7">
                    <?php echo $row1['p_remarks']; ?>
+                </div>
+                 <div class="col-md-1">
+                  <a href="#"  class="editDiv" data-href="<?php echo 'p_remarks',$row1['pid'] ;?>" style="font-size:15px">
+                    Edit <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                  </a>
                 </div>
             </div>
 
             </div>
  
-          <div class="panel-footer"  style="height:60px;">
+         <!--  <div class="panel-footer"  style="height:60px;">
              <div class="col-md-12">
               <div class="col-md-3 col-md-offset-9">
-               <button class="btn btn-success" type="button">Edit Project Details</button>
+               <a href="#" data-href="<?php echo $row['pid'];?>" class="btn btn-success EditProjectDetails" type="button">
+                 Edit Project Details
+                </a>
               </div>
             </div>
-          </div>
+          </div> -->
   
 <!-- task start here  -->
      <div class="taskdetails" style="margin:10px;margin-top:20px;">
@@ -338,6 +418,33 @@ $projects=mysqli_query($connect,"SELECT * FROM Project INNER JOIN user_details O
           
           <div class="panel-collapse collapse" id="col<?php echo $check2['tid']; ?>">
             <div class="panel-body">
+
+            <div class="col-md-12" style="font-size:20px;">
+                <div class="col-md-offset-11">
+                 <?php 
+                    if($check2['t_status']==0)
+                    {
+                      ?>
+                      <span class="badge badge-danger">Pending</span>
+                      <?php
+                    }
+                   else if($check2['t_status']==1)
+                   {
+                    ?>
+                      <span class="badge badge-warning">All most completed</span>
+                    <?php
+                   }
+                   else if($check2['t_status']==2)
+                   {
+                    ?>
+                      <span class="badge badge-warning">
+                        Completed <i class="fa fa-check" aria-hidden="true" style="color:white"></i>
+                      </span>
+                    <?php
+                   }
+                 ?>
+                 </div>
+            </div>
            
            <div class="col-md-12" style="font-size:20px;">
                 <div class="col-md-6">
@@ -365,26 +472,19 @@ $projects=mysqli_query($connect,"SELECT * FROM Project INNER JOIN user_details O
                 <div class="col-md-3">
                    <?php echo $check2['t_deadline']; ?>
                 </div>
-            </div> 
-
-            <div class="col-md-12" style="font-size:20px;">
-                <div class="col-md-6">
-                   <label for="name">Task Status:</label>
-                </div>
-                <div class="col-md-3">
-                   <?php echo $task_status[$check2['t_completed']]; ?>
-                </div>
             </div>
           
             </div>
  
-          <div class="panel-footer"  style="height:60px;">
+          <!-- <div class="panel-footer"  style="height:60px;">
             <div class="col-md-12">
               <div class="col-md-3 col-md-offset-9">
-               <button class="btn btn-success" type="button">Edit Task Details</button>
+               <a  href="#" data-href="<?php echo $check2['tid'];?>" class="btn btn-success EditTaskdetails" type="button">
+                 Edit Task Details
+               </a>
               </div>
             </div>
-          </div>
+          </div> -->
 
 
      <!-- comment section need to be implemented later on -->
@@ -482,15 +582,66 @@ $projects=mysqli_query($connect,"SELECT * FROM Project INNER JOIN user_details O
   print_r($_POST);
  }
 ?>
+
 <script type="text/javascript">
 $(document).ready(function(){
 
+
+$('.EditProjectTitle').click(function(){
+ var id=$(this).attr('data-href');
+ $('#ProjectTitle').focus();
+ $('#ProjectTitle').css({
+                         'outline':'0px',
+                         'border-bottom-width':'2px',
+                         'border-bottom-color':'grey',
+                         'border-bottom-style':'solid',
+                         'border-left-width':'0px',
+                         'border-top-width':'0px',
+                         'border-right-width':'0px'});
+
+ $('#ProjectTitle').attr('readonly',false);
+
+$('#ProjectTitle').focusout(function(){
+
+  $(this).css({
+    'border-bottom-width':'0px'
+  });
+
+  $(this).attr('readonly',true); 
+  var value=$(this).val();
+  var For="p_title";
+  console.log("The value is: "+value);
+  var d="string="+For+"&id="+id+"&val="+value;
+   console.log(d);
+  $.ajax({
+   url:"UpdateProjectDetails.php",
+   type:"post",
+   data:d,
+   cache:false,
+   success:function(response){
+     if(response=='0')
+     {
+       alert("Updated Successfully");
+     }
+    else if(response=='1')
+    {
+     alert('Unable to Update the record');
+    }
+   }
+
+  });
+
+});
+
+return false; 
+});
+
 $(".active").click(function(){
-  $new_id=$(this).attr('data-href');
+  var new_id=$(this).attr('data-href');
   var answer=confirm('Do you want to Activate this user?');
     if(answer){
      <?php
-      mysqli_query($connect,"UPDATE user_details SET status='1' WHERE uid=$new_id")
+      //mysqli_query($connect,"UPDATE user_details SET status='1' WHERE uid=$new_id");
      ?>
      alert('Activated Successfully');
     }
@@ -505,7 +656,7 @@ $(".deactivate").click(function(){
   var answer=confirm('Do you want to De-activate this user?');
     if(answer){
      <?php
-      mysqli_query($connect,"UPDATE user_details SET status='0' WHERE uid=$new_id")
+      //mysqli_query($connect,"UPDATE user_details SET status='0' WHERE uid=$new_id")
      ?>
      alert('De-activated Successfully');
     }

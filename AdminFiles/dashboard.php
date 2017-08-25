@@ -1,8 +1,8 @@
 <?php
 session_start();
-if(!isset($_SESSION['aid']) && !isset($_SESSION['login_token']))
+if(!isset($_SESSION['aid']) || !isset($_SESSION['login_token']))
 {
-   alert("Please Login To see the content !");
+ //  alert("Please Login To see the content !");
    session_destroy();
    header("Location: AdminLogin.php");
    exit();
