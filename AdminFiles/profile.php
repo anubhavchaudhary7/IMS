@@ -41,9 +41,13 @@ $projectStatus=['Pending','All most Completed','Completed'];
  }
 
  .inputCss{
-  outline:0;
-  border:0;
-  border-bottom: 2px solid blue;
+  outline:0px,
+  border-bottom-width:2px,
+  border-bottom-color:grey,
+  border-bottom-style:solid,
+  border-left-width:0px,
+  border-top-width:0px,
+  border-right-width:0px;
  }
  </style>
 
@@ -54,7 +58,7 @@ $projectStatus=['Pending','All most Completed','Completed'];
     $details="SELECT * FROM projects WHERE pid=''"
 
   ?>
-<div class="modal fade" id="EditProjectDetails" role="dialog" aria-labelledby="EditProjectDetails" aria-hidden="true">
+<!-- <div class="modal fade" id="EditProjectDetails" role="dialog" aria-labelledby="EditProjectDetails" aria-hidden="true">
   <form classs="form form-control" action="UpdateProjectDetails.php" method="PUT" name="UpdateProjectDetails">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -80,7 +84,7 @@ $projectStatus=['Pending','All most Completed','Completed'];
       </button>
     </div>
   </form>
-</div>  
+</div>   -->
 <?php
 
 // include "navbar.php";
@@ -251,16 +255,6 @@ $projects=mysqli_query($connect,"SELECT * FROM Project INNER JOIN user_details O
 
        </div>
       </div>
-
-       <div class="panel-footer" style="height:60px;">
-        <div class="col-md-12">
-          <div class="col-md-3 col-md-offset-9">
-           <button class="btn btn-success" type="button">Edit User Details</button>
-          </div>
-        </div>
-       </div>
-
-
      </div>
    </div>
 <!-- Personal Details part Overs Here -->
@@ -322,26 +316,18 @@ $projects=mysqli_query($connect,"SELECT * FROM Project INNER JOIN user_details O
                    <label for="name">Project Title:</label>
                 </div>
                 <div class="col-md-7">
-                   <input id="ProjectTitle" readonly="true" value="<?php echo $row1['p_title']; ?>" style="border-style:none" />
-                </div>
-                <div class="col-md-1">
-                  <a href="#" class="EditProjectTitle" data-href="<?php echo $row1['pid']; ?>" style="font-size:15px">
-                    Edit <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                  </a>
+                   <input id="ProjectTitle-<?php echo $row1['pid'];?>" class="ProjectDetails-<?php echo $row1['pid']; ?>" readonly="true" value="<?php echo $row1['p_title']; ?>" style="border-style:none" />
                 </div>
            </div> 
-            
+
             <div class="col-md-12" style="font-size:20px;margin:5px;">
                 <div class="col-md-4">
                    <label for="name">Project Description:</label>
                 </div>
                 <div class="col-md-7">
-                   <?php echo $row1['p_description']; ?>
-                </div>
-                 <div class="col-md-1" >
-                  <a href="#" class="editDiv" data-href="<?php echo 'p_description',$row1['pid'] ;?>" style="font-size:15px">
-                    Edit <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                  </a>
+
+                  <textarea id="ProjectDescription-<?php echo $row1['pid']; ?>" readonly="true" class="ProjectDetails-<?php echo $row1['pid']; ?>" style="border-style:none" cols="50" rows='2'><?php echo $row1['p_description']; ?></textarea>
+
                 </div>
             </div>
              
@@ -350,12 +336,7 @@ $projects=mysqli_query($connect,"SELECT * FROM Project INNER JOIN user_details O
                    <label for="name">Assigned date:</label>
                 </div>
                 <div class="col-md-7" >
-                   <?php echo $row1['p_start']; ?>
-                </div>
-                 <div class="col-md-1">
-                  <a href="#"  class="editDiv" data-href="<?php echo 'p_start',$row1['pid'] ;?>" style="font-size:15px">
-                    Edit <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                  </a>
+                  <input readonly="true" style="border-style:none" class="ProjectDetails-<?php echo $row1['pid']; ?>" type="date" id="AssignedDate-<?php echo $row1['pid'];?>" value="<?php echo $row1['p_start']; ?>" />
                 </div>
             </div> 
 
@@ -364,12 +345,7 @@ $projects=mysqli_query($connect,"SELECT * FROM Project INNER JOIN user_details O
                    <label for="name">Deadline:</label>
                 </div>
                 <div class="col-md-7">
-                   <?php echo $row1['p_deadline']; ?>
-                </div>
-                 <div class="col-md-1" >
-                  <a href="#"  class="editDiv" data-href="<?php echo 'p_deadline',$row1['pid'] ;?>" style="font-size:15px">
-                    Edit <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                  </a>
+                   <input readonly="true" class="ProjectDetails-<?php echo $row1['pid']; ?>" style="border-style:none" type="date" id="EndDate-<?php echo $row1['pid'];?>"  value="<?php echo $row1['p_deadline']; ?>" />
                 </div>
             </div> 
 
@@ -378,26 +354,26 @@ $projects=mysqli_query($connect,"SELECT * FROM Project INNER JOIN user_details O
                    <label for="name">Remarks:</label>
                 </div>
                 <div class="col-md-7">
-                   <?php echo $row1['p_remarks']; ?>
-                </div>
-                 <div class="col-md-1">
-                  <a href="#"  class="editDiv" data-href="<?php echo 'p_remarks',$row1['pid'] ;?>" style="font-size:15px">
-                    Edit <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                  </a>
+        <textarea id="Remarks-<?php echo $row1['pid'];?>" cols="50" rows="2" class="ProjectDetails-<?php echo $row1['pid']; ?>" readonly="true" style="border-style:none" >
+           <?php echo $row1['p_remarks']; ?>
+        </textarea>
                 </div>
             </div>
 
             </div>
- 
-         <!--  <div class="panel-footer"  style="height:60px;">
+
+        <div class="panel-footer"  style="height:60px;">
              <div class="col-md-12">
-              <div class="col-md-3 col-md-offset-9">
-               <a href="#" data-href="<?php echo $row['pid'];?>" class="btn btn-success EditProjectDetails" type="button">
-                 Edit Project Details
-                </a>
-              </div>
+               <div class="col-md-2 col-md-offset-8 AddSubmitButton-<?php echo $row1['pid'];?>">
+               </div>
+
+               <div class="CancelButton-<?php echo $row1['pid'];?> col-md-2">
+               </div>
+               <div class="col-md-2 EditProjectButton-<?php echo $row1['pid'];?>">
+                 <a href="#"  data-href="<?php echo $row1['pid'];?>" class="Edit btn btn-info">Edit</a>
+               </div>
             </div>
-          </div> -->
+        </div> 
   
 <!-- task start here  -->
      <div class="taskdetails" style="margin:10px;margin-top:20px;">
@@ -451,7 +427,7 @@ $projects=mysqli_query($connect,"SELECT * FROM Project INNER JOIN user_details O
                    <label for="name">Task Title:</label>
                 </div>
                 <div class="col-md-3" id="status">
-                   <?php echo $check2['t_title']; ?>
+                  <input id="TaskTitle-<?php echo $check2['tid'];?>" class="TaskDetails-<?php echo $check2['tid']; ?>" readonly="true" value="<?php echo $check2['t_title']; ?>" style="border-style:none" />
                 </div>
             </div> 
             
@@ -460,31 +436,32 @@ $projects=mysqli_query($connect,"SELECT * FROM Project INNER JOIN user_details O
                    <label for="name">Task Description:</label>
                 </div>
                 <div class="col-md-6">
-                   <?php echo $check2['t_description']; ?>
+                 <textarea id="TaskDescription-<?php echo $row1['pid']; ?>" readonly="true" class="TaskDetails-<?php echo $check2['tid']; ?>" style="border-style:none" cols="40" rows='2'><?php echo $check2['t_description']; ?></textarea>
                 </div>
             </div> 
-
-          
              <div class="col-md-12" style="font-size:20px;">
                 <div class="col-md-6">
                    <label for="name">Task Deadline:</label>
                 </div>
                 <div class="col-md-3">
-                   <?php echo $check2['t_deadline']; ?>
+                   <input id="TaskDeadline-<?php echo $check2['tid'];?>" type="date" class="TaskDetails-<?php echo $check2['tid']; ?>" readonly="true" value="<?php echo $check2['t_deadline']; ?>" style="border-style:none" />
                 </div>
             </div>
           
             </div>
  
-          <!-- <div class="panel-footer"  style="height:60px;">
-            <div class="col-md-12">
-              <div class="col-md-3 col-md-offset-9">
-               <a  href="#" data-href="<?php echo $check2['tid'];?>" class="btn btn-success EditTaskdetails" type="button">
-                 Edit Task Details
-               </a>
-              </div>
+          <div class="panel-footer"  style="height:60px;">
+             <div class="col-md-12">
+               <div class="col-md-2 col-md-offset-8 AddSubmitButtonTask-<?php echo $check2['tid'];?>">
+               </div>
+
+               <div class="CancelButtonTask-<?php echo $check2['tid'];?> col-md-2">
+               </div>
+               <div class="col-md-2 EditTaskButton-<?php echo $check2['tid'];?>">
+                 <a href="#"  data-href="<?php echo $check2['tid'];?>" class="EditTask btn btn-info">Edit</a>
+               </div>
             </div>
-          </div> -->
+        </div> 
 
 
      <!-- comment section need to be implemented later on -->
@@ -546,7 +523,7 @@ $projects=mysqli_query($connect,"SELECT * FROM Project INNER JOIN user_details O
            {
             ?>
             <div class="col-md-3 " style="padding-left: 290px; width:505px;padding-right:0px;"  >
-              <a href="#" data-href="<?php echo $id;?>" class="deactivate" type="button" class="btn btn-danger btn-lg">
+              <a href="#"  class="btn btn-danger btn-lg deactivate" data-href="<?php echo $id; ?>" type="button" >
                 Deactivate User <i class="fa fa-ban" aria-hidden="true"></i>
              </a>
            </div>
@@ -555,7 +532,7 @@ $projects=mysqli_query($connect,"SELECT * FROM Project INNER JOIN user_details O
         else{
           ?>
             <div class="col-md-3 " style="padding-left: 290px; width:505px;padding-right:0px;"  >
-              <a  href="#" data-href="<?php echo $id;?>" class="active" type="button" class="btn btn-success btn-lg">
+              <a  href="#" class="btn btn-success btn-lg active" data-href="<?php echo $id; ?>" type="button" >
                 Active User <i class="fa fa-ban" aria-hidden="true"></i>
              </a>
            </div>
@@ -587,84 +564,267 @@ $projects=mysqli_query($connect,"SELECT * FROM Project INNER JOIN user_details O
 $(document).ready(function(){
 
 
-$('.EditProjectTitle').click(function(){
- var id=$(this).attr('data-href');
- $('#ProjectTitle').focus();
- $('#ProjectTitle').css({
-                         'outline':'0px',
+$('.Edit').click(function(){
+   var id=$(this).attr('data-href');
+
+   $('.EditProjectButton-'+id).empty();
+
+   $('.AddSubmitButton-'+id).html(
+   '<button type="button" class="btn btn-success">Update</button>');
+
+   $('.CancelButton-'+id).html(
+   '<button type="button" class="btn btn-danger">Cancel</button>');
+   
+  
+   $('.ProjectDetails-'+id).attr('readonly',false);
+    $('.ProjectDetails-'+id).css({
+                             'outline':'0px',
                          'border-bottom-width':'2px',
                          'border-bottom-color':'grey',
                          'border-bottom-style':'solid',
                          'border-left-width':'0px',
                          'border-top-width':'0px',
-                         'border-right-width':'0px'});
+                         'border-right-width':'0px'
+   });
+  
+   var PreTitle=$('#ProjectTitle-'+id).val();
+   var PreDescription=$('#ProjectDescription-'+id).val();
+   var PreAssignedDate=$('#AssignedDate-'+id).val();
+   var PreEndDate=$('#EndDate-'+id).val();
+   var PreRemarks=$('#Remarks-'+id).val();
+  
+    $('.AddSubmitButton-'+id).click(function(){
 
- $('#ProjectTitle').attr('readonly',false);
+       var NewTitle=$('#ProjectTitle-'+id).val();
+       var NewDescription=$('#ProjectDescription-'+id).val();
+       var NewAssignedDate=$('#AssignedDate-'+id).val();
+       var NewEndDate=$('#EndDate-'+id).val();
+       var NewRemarks=$('#Remarks-'+id).val();
 
-$('#ProjectTitle').focusout(function(){
+       var inputs={};
 
-  $(this).css({
-    'border-bottom-width':'0px'
+       if(NewTitle!=PreTitle)
+        {
+          inputs["p_title"]=(NewTitle);
+          console.log("You are here");
+        }
+        if(NewDescription!=PreDescription){
+          inputs["p_description"]=(NewDescription);
+        }
+        if(NewAssignedDate!=PreAssignedDate)
+        {
+          inputs["p_start"]=(NewAssignedDate);
+        }
+        if(NewEndDate!=PreEndDate)
+        {
+          inputs["p_deadline"]=(NewEndDate);
+        }
+        if(NewRemarks!=PreRemarks)
+        {
+          inputs["p_remarks"]=(NewRemarks);
+        }
+
+      var newString=JSON.stringify(inputs);
+
+      var For="Project";
+      var d="string="+For+"&id="+id+"&val="+newString;
+      $.ajax({
+       url:'update_project_details.php',
+       type:'post',
+       data:d,
+       cache:false,
+       success:function(response){
+         if(response=='0')
+         {
+           alert("Updated Successfully");
+         }
+        else if(response=='1')
+        {
+         alert('Unable to Update the record');
+        }
+        else{
+          alert(response);
+        }
+       }
+      });
+
+       $('.ProjectDetails-'+id).attr('readonly',true);
+       $('.ProjectDetails-'+id).css({
+                             'outline':'none',
+                             'border-bottom-width':'0px',
+                             'border-bottom-color':'none',
+                             'border-bottom-style':'none',
+                             'border-left-width':'0',
+                             'border-top-width':'0',
+                             'border-right-width':'0'
+        });
+      $('.AddSubmitButton-'+id).empty();
+      $('.CancelButton-'+id).empty();
+       $('.EditProjectButton-'+id).html("<a href='#' data-href="+id+" class='Edit btn btn-info'>Edit</a>");
+          console.log("<a href='#' data-href="+id+"class='Edit btn btn-info'>Edit</a>")
+       });
+
+       $('.CancelButton-'+id).click(function(){
+          $('.ProjectDetails-'+id).attr('readonly',true);
+          $('.ProjectDetails-'+id).css({
+                             'outline':'none',
+                             'border-bottom-width':'0px',
+                             'border-bottom-color':'none',
+                             'border-bottom-style':'none',
+                             'border-left-width':'0',
+                             'border-top-width':'0',
+                             'border-right-width':'0'
+          });
+          $('.AddSubmitButton-'+id).empty();
+          $('.CancelButton-'+id).empty();
+          $('.EditProjectButton-'+id).html("<a href='#' data-href="+id+" class='Edit btn btn-info'>Edit</a>");
+          console.log("<a href='#' data-href="+id+"class='Edit btn btn-info'>Edit</a>")
+       });
+
+   return false;
+});
+
+// Details for the Task to Edit
+
+$('.EditTask').click(function(){
+   var id=$(this).attr('data-href');
+   $('.EditTaskButton-'+id).empty();
+
+   $('.AddSubmitButtonTask-'+id).html(
+   '<button type="button" class="btn btn-success">Update</button>');
+
+   $('.CancelButtonTask-'+id).html(
+   '<button type="button" class="btn btn-danger">Cancel</button>');
+   
+   
+   $('.TaskDetails-'+id).attr('readonly',false);
+    $('.TaskDetails-'+id).css({
+                             'outline':'0px',
+                         'border-bottom-width':'2px',
+                         'border-bottom-color':'grey',
+                         'border-bottom-style':'solid',
+                         'border-left-width':'0px',
+                         'border-top-width':'0px',
+                         'border-right-width':'0px'
+   });
+  
+   var PreTitle=$('#TaskTitle-'+id).val();
+   var PreDescription=$('#TaskDescription-'+id).val();
+   var PreEndDate=$('#TaskDeadline-'+id).val();
+  
+    $('.AddSubmitButtonTask-'+id).click(function(){
+
+       var NewTitle=$('#TaskTitle-'+id).val();
+       var NewDescription=$('#TaskDescription-'+id).val();
+       var NewEndDate=$('#TaskDeadline-'+id).val();
+
+       var inputs={};
+
+       if(NewTitle!=PreTitle)
+        {
+          inputs["t_title"]=(NewTitle);
+          console.log("You are here");
+        }
+        if(NewDescription!=PreDescription){
+          inputs["t_description"]=(NewDescription);
+        }
+        if(NewEndDate!=PreEndDate)
+        {
+          inputs["p_deadline"]=(NewEndDate);
+        }
+
+      var newString=JSON.stringify(inputs);
+      
+      var For="Task";
+      var d="string="+For+"&id="+id+"&val="+newString;
+      $.ajax({
+       url:'update_project_details.php',
+       type:'post',
+       data:d,
+       cache:false,
+       success:function(response){
+         if(response=='0')
+         {
+           alert("Updated Successfully");
+         }
+        else if(response=='1')
+        {
+         alert('Unable to Update the record');
+        }
+        else{
+          alert(response);
+        }
+       }
+      });
+
+       $('.TaskDetails-'+id).attr('readonly',true);
+       $('.TaskDetails-'+id).css({
+                             'outline':'none',
+                             'border-bottom-width':'0px',
+                             'border-bottom-color':'none',
+                             'border-bottom-style':'none',
+                             'border-left-width':'0',
+                             'border-top-width':'0',
+                             'border-right-width':'0'
+        });
+      $('.AddSubmitButtonTask-'+id).empty();
+      $('.CancelButtonTask-'+id).empty();
+       $('.EditTaskButton-'+id).html("<a href='#' data-href="+id+" class='EditTask btn btn-info'>Edit</a>");
+          console.log("<a href='#' data-href="+id+"class='EditTask btn btn-info'>Edit</a>")
+       });
+
+       $('.CancelButtonTask-'+id).click(function(){
+          $('.TaskDetails-'+id).attr('readonly',true);
+          $('.TaskDetails-'+id).css({
+                             'outline':'none',
+                             'border-bottom-width':'0px',
+                             'border-bottom-color':'none',
+                             'border-bottom-style':'none',
+                             'border-left-width':'0',
+                             'border-top-width':'0',
+                             'border-right-width':'0'
+          });
+          $('.AddSubmitButtonTask-'+id).empty();
+          $('.CancelButtonTask-'+id).empty();
+          $('.EditTaskButton-'+id).html("<a href='#' data-href="+id+" class='EditTask btn btn-info'>Edit</a>");
+          console.log("<a href='#' data-href="+id+"class='EditTask btn btn-info'>Edit</a>")
+       });
+
+   return false;
+});
+
+
+  $(".active").click(function(){
+    var new_id=$(this).attr('data-href');
+    var answer=confirm('Do you want to Activate this user?');
+      if(answer){
+       <?php
+        mysqli_query($connect,"UPDATE user_details SET status='1' WHERE uid=<script type='text/javascript'>new_id</script>");
+       ?>
+       alert('Activated Successfully');
+      }
+      else{
+        alert("Unable to Activate the user Please try After sometime");
+      } 
+
+    return false;
   });
 
-  $(this).attr('readonly',true); 
-  var value=$(this).val();
-  var For="p_title";
-  console.log("The value is: "+value);
-  var d="string="+For+"&id="+id+"&val="+value;
-   console.log(d);
-  $.ajax({
-   url:"UpdateProjectDetails.php",
-   type:"post",
-   data:d,
-   cache:false,
-   success:function(response){
-     if(response=='0')
-     {
-       alert("Updated Successfully");
-     }
-    else if(response=='1')
-    {
-     alert('Unable to Update the record');
-    }
-   }
+  $(".deactivate").click(function(){
+    var new_id=$(this).attr('data-href');
+    var answer=confirm('Do you want to De-activate this user?');
+      if(answer){
+       <?php
+        mysqli_query($connect,"UPDATE user_details SET status='0' WHERE uid=<script type='text/javascript'>new_id</script>")
+       ?>
+       alert('De-activated Successfully');
+      }
+      else{
+        alert("Unable to De-activate the user Please try After sometime");
+      }
 
-  });
-
-});
-
-return false; 
-});
-
-$(".active").click(function(){
-  var new_id=$(this).attr('data-href');
-  var answer=confirm('Do you want to Activate this user?');
-    if(answer){
-     <?php
-      //mysqli_query($connect,"UPDATE user_details SET status='1' WHERE uid=$new_id");
-     ?>
-     alert('Activated Successfully');
-    }
-    else{
-      alert("Unable to Activate the user Please try After sometime");
-    } 
-  return false;
-});
-
-$(".deactivate").click(function(){
-  $new_id=$(this).attr('data-href');
-  var answer=confirm('Do you want to De-activate this user?');
-    if(answer){
-     <?php
-      //mysqli_query($connect,"UPDATE user_details SET status='0' WHERE uid=$new_id")
-     ?>
-     alert('De-activated Successfully');
-    }
-    else{
-      alert("Unable to De-activate the user Please try After sometime");
-    } 
-  return false;
-});
+    return false;
+    });
 });
 </script>
 
