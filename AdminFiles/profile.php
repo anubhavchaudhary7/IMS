@@ -690,7 +690,7 @@ $('.Edit').click(function(){
 // Details for the Task to Edit
 
 $('.EditTask').click(function(){
-   var id=$(this).attr('data-href');
+   var id=$(this).attr('data-href');  
    $('.EditTaskButton-'+id).empty();
 
    $('.AddSubmitButtonTask-'+id).html(
