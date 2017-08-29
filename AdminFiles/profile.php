@@ -516,7 +516,7 @@ $projects=mysqli_query($connect,"SELECT * FROM Project INNER JOIN user_details O
 <!-- Projects Part ends here -->
 
 <!-- Sub task Start here -->
-       <div class="deactivate user">
+       <div class="deactivateUser">
        <div class="row">
           <?php
           if($row['status']==1)
@@ -601,15 +601,16 @@ $('.Edit').click(function(){
        var NewEndDate=$('#EndDate-'+id).val();
        var NewRemarks=$('#Remarks-'+id).val();
 
-       var inputs={};
 
+      /* var inputs={};
+        
        if(NewTitle!=PreTitle)
         {
-          inputs["p_title"]=(NewTitle);
+          inputs["p_title"]=(NewTitle).trim();
           console.log("You are here");
         }
         if(NewDescription!=PreDescription){
-          inputs["p_description"]=(NewDescription);
+          inputs["p_description"]=(NewDescription).trim();
         }
         if(NewAssignedDate!=PreAssignedDate)
         {
@@ -621,13 +622,15 @@ $('.Edit').click(function(){
         }
         if(NewRemarks!=PreRemarks)
         {
-          inputs["p_remarks"]=(NewRemarks);
-        }
+          inputs["p_remarks"]=(NewRemarks).trim();
+        }*/
 
-      var newString=JSON.stringify(inputs);
+    /*  var newString=JSON.stringify(inputs);
+      console.log(newString);*/
 
       var For="Project";
-      var d="string="+For+"&id="+id+"&val="+newString;
+      var d="string="+For+"&id="+id+"&Title="+NewTitle.trim()+"&Description="+NewDescription.trim()+"&Start="+NewAssignedDate+"&End="+NewEndDate+"&Remarks="+NewRemarks.trim();
+
       $.ajax({
        url:'update_project_details.php',
        type:'post',
@@ -718,7 +721,7 @@ $('.EditTask').click(function(){
        var NewDescription=$('#TaskDescription-'+id).val();
        var NewEndDate=$('#TaskDeadline-'+id).val();
 
-       var inputs={};
+       /*var inputs={};
 
        if(NewTitle!=PreTitle)
         {
@@ -733,10 +736,12 @@ $('.EditTask').click(function(){
           inputs["p_deadline"]=(NewEndDate);
         }
 
-      var newString=JSON.stringify(inputs);
+      var newString=JSON.stringify(inputs);*/
       
       var For="Task";
-      var d="string="+For+"&id="+id+"&val="+newString;
+
+      var d="string="+For.trim()+"&id="+id+"&Title="+NewTitle.trim()+"&Description="+NewDescription.trim()+"&Deadline="+NewEndDate;
+
       $.ajax({
        url:'update_project_details.php',
        type:'post',

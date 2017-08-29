@@ -12,21 +12,19 @@ include "../ConfigFiles/database.php";
 
 $id=mysqli_real_escape_string($connect,$_POST['id']);
 $text=mysqli_real_escape_string($connect,$_POST['string']);
-$val=mysqli_real_escape_string($connect,$_POST['val']);
 
-$decode=json_decode($val,true);
 
-echo $decode;
-
-foreach ($decode as $k => $v) {
-   echo $v[$k];
-}
-
-/*if($text=='p_title')
+if($text=='Project')
 {
- if(isset($id) && isset($text))
+  $Title=mysqli_real_escape_string($connect,$_POST['Title']);
+  $Description=mysqli_real_escape_string($connect,$_POST['Description']);
+  $Start=mysqli_real_escape_string($connect,$_POST['Start']);
+  $End=mysqli_real_escape_string($connect,$_POST['End']);
+  $Remarks=mysqli_real_escape_string($connect,$_POST['Remarks']);
+
+ if(isset($id) && isset($Title) && isset($Description) && isset($Start) && isset($End) && isset($Remarks))
 {
-  $q="UPDATE project SET p_title='$val' WHERE pid='$id'";
+  $q="UPDATE project SET p_title='$Title',p_description='$Description',p_deadline='$End',p_start='$Start',p_remarks='$Remarks' WHERE pid='$id'";
   $sql=mysqli_query($connect,$q);
   if($sql>0)
   {
@@ -40,11 +38,14 @@ else{
 	echo '1';
 }	
 }
-else if($text=='p_description'){
-	
+
+if($text=='Task'){
+  $Title=mysqli_real_escape_string($connect,$_POST['Title']);
+  $Description=mysqli_real_escape_string($connect,$_POST['Description']);
+	$Deadline=mysqli_real_escape_string($connect,$_POST['Deadline']);
 if(isset($id) && isset($text))
 {
-  $q="UPDATE project SET p_description='$val' WHERE pid='$id'";
+  $q="UPDATE task SET t_title='$Title',t_description='$Description',t_deadline='$Deadline' WHERE tid='$id'";
   $sql=mysqli_query($connect,$q);
   if($sql>0)
   {
@@ -59,5 +60,4 @@ else{
 }	
 }
 
-
-?>*/
+?>
